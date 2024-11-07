@@ -22,7 +22,7 @@ const ibmPlexSerif = IBM_Plex_Serif({
 
 export const metadata: Metadata = {
   title: "FluxFunds",
-  description: "FluxFunds is a modern banking platform for everyone",
+  description: "Experience a new era of banking with FluxFunds – secure, simple, and designed for everyone.",
   icons: {
     icon: '/icons/logo.svg'
   }
