@@ -18,13 +18,24 @@ const Sidebar = ({user}: SiderbarProps) => {
                   alt="FluxFunds logo"
                   className="size=[24px] max-xl:size-14"
                 />
-                 <h1 className="sidebar-logo">FluxFunds</h1>
+                <h1 className="sidebar-logo">FluxFunds</h1>
               </Link>
 
               {sidebarLinks.map((item) => {
                 const isActive = pathname === item.route || pathname.startsWith(`${item.route}/`)
                 return (
-                    <Link href={item.route} key={item.label} className={cn('sidebar-link', {'bd-bank-gradient': isActive })}>{item.label}</Link>
+                    <Link href={item.route} key={item.label} className={cn('sidebar-link', {'bd-bank-gradient': isActive })}>
+                      <div className="relative size-6">
+                        <img 
+                          src={item.imgURL}
+                          alt={item.label}
+                          className={cn({'brightness-[3] invert-0':isActive})}
+                        />
+                      </div>
+                      <p className={cn("sidebar-label",{"!text-white": isActive})}>
+                        {item.label}
+                      </p>
+                    </Link>
                 )
               })}
             </nav>
