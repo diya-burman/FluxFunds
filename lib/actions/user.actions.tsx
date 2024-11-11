@@ -32,7 +32,7 @@ export const signUp = async (userData: SignUpParams) => {
       sameSite: "strict",
       secure: true,
     });
-    return parseStringify(newUser);
+    return parseStringify(newUserAccount);
   } catch (error) {
     console.error("Error", error);
   }
