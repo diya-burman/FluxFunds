@@ -22,16 +22,17 @@ import { authFormSchema } from "@/lib/utils";
 import { Loader2 } from "lucide-react";
 import { error } from "console";
 import { useRouter } from "next/navigation";
-import { signIn, signUp } from "@/lib/actions/user.actions";
+import { getLoggedInUser, signIn, signUp } from "@/lib/actions/user.actions";
 
 const formSchema = z.object({
   email: z.string().email(),
 });
 
-const AuthForm = ({ type }: { type: string }) => {
+const AuthForm = async ({ type }: { type: string }) => {
   const router = useRouter();
   const [user, setUser] = useState(null);
   const [isLoading, setisLoading] = useState(false);
+  const LoggedInUser = await getLoggedInUser();
 
   const formSchema = authFormSchema(type);
 
