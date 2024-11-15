@@ -5,7 +5,7 @@ import { createAdminClient, createSessionClient } from "../appwrite";
 import { ID } from "node-appwrite";
 import { parseStringify } from "../utils";
 
-export const signIn = async () => {
+export const signIn = async ({email,password}: signInProps)  => {
   try {
     //mutation / Database / Make fetch
   } catch (error) {
@@ -18,7 +18,9 @@ export const signUp = async (userData: SignUpParams) => {
   try {
     const { account } = await createAdminClient();
 
-    const newUserAccount = await account.create(
+    const response = await account.createEmailPasswordSession(email,password);
+    return parseStringify
+    const newUserAccount = await account.create (
       ID.unique(),
       email,
       password,
@@ -49,3 +51,15 @@ export async function getLoggedInUser() {
     return null;
   }
 }
+
+export const logoutAccount = async () => {
+  try {
+    const { account } = await createSessionClient();
+    cookies().delete('appwrite-session');
+    await account.deleteSession('current');
+  } catch (error) {
+    return null;
+  }
+}
+
+
