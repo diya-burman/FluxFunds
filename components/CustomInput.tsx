@@ -7,7 +7,7 @@ import { authFormSchema } from "@/lib/utils";
 
 interface CustomInput {
     control: Control<z.infer<typeof authFormSchema>>,
-    name: string,
+    name: FieldPath
     label: string,
     placeholder: string
 }
@@ -25,6 +25,7 @@ const CustomInput = ({ control , name, label, placeholder }: CustomInput) => {
               <Input
                 placeholder={placeholder}
                 className="input-class"
+                type={name === 'password' ? 'password' : 'text'}
                 {...field}
               />
             </FormControl>

@@ -18,6 +18,7 @@ import {
 import { Input } from "@/components/ui/input";
 import CustomInput from "./CustomInput";
 import { authFormSchema } from "@/lib/utils";
+import { Loader2 } from "lucide-react";
 
 const formSchema = z.object({
   email: z.string().email(),
@@ -25,6 +26,7 @@ const formSchema = z.object({
 
 const AuthForm = ({ type }: { type: string }) => {
   const [user, setUser] = useState(null);
+  const [isLoading, setisLoading] = useState(false)
 
   // 1. Define your form.
   const form = useForm<z.infer<typeof authFormSchema>>({
@@ -39,7 +41,9 @@ const AuthForm = ({ type }: { type: string }) => {
   function onSubmit(values: z.infer<typeof formSchema>) {
     // Do something with the form values.
     // ✅ This will be type-safe and validated.
-    console.log(values);
+    setisLoading(true)
+    console.log(values)
+    setisLoading(false);
   }
 
   return (
@@ -74,63 +78,34 @@ const AuthForm = ({ type }: { type: string }) => {
         <>
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-              <FormField
-                control={form.control}
-                name="email"
-                render={({ field }) => (
-                  <div className="form-item">
-                    <FormLabel className="form-label">
-                      Email
-                    </FormLabel>
-                    <div className="flex w-full flex-col">
-                      <FormControl>
-                        <Input 
-                          placeholder="Enter your email"
-                          className="input-class"
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormMessage className="form-message mt-2" />
-
-                      
-                    </div>
-                  </div>
-                )}
-              />
-
               <CustomInput 
-                control={form.control} name='username' label="username" placeholder='Enter your username'
+                control={form.control} name='email' label="Email" placeholder='Enter your email'
               />
               <CustomInput 
-                control={form.control} name='password' label="password" placeholder='Enter your password'
+                control={form.control} name='password' label="Password" placeholder='Enter your password'
               /> 
-
-              <FormField
-                control={form.control}
-                name="password"
-                render={({ field }) => (
-                  <div className="form-item">
-                    <FormLabel className="form-label">
-                      Password
-                    </FormLabel>
-                    <div className="flex w-full flex-col">
-                      <FormControl>
-                        <Input 
-                          placeholder="Enter your password"
-                          className="input-class"
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormMessage className="form-message mt-2" />
-
-                      
-                    </div>
-                  </div>
-                )}
-              />
-              <Button type="submit">Submit</Button>
+              <Button type="submit" className="form-btn">
+                {isLoading ? (
+                  <>
+                    <Loader2 size={20}
+                    className="animate-spin" /> &nbsp;
+                    Loading...
+                  </>
+                ): type === 'sign-in'
+                 ? 'Sign In' : 'Sign Up'}
+              </Button>
             </form>
           </Form>
+
+          <footer className="flex justify-center gap-1">
+            <p className="flex justify-center gap-1 text-gray-600">{type === 'sign-in'
+             ? "Don't have an account?"
+             : "Already have an account?"}
+            </p>
+            <Link href={type === 'sign-in' ? '/sign-up' : '/sign-in'} className="form-link">
+              {type === 'sign-in' ? 'Sign-up' : 'Sign-in'}
+            </Link>
+          </footer>
         </>
       )}
     </section>
